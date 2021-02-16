@@ -38,7 +38,7 @@ try {
     console.log(`Listening on port ${config.HTTP_PORT}`);
   });
 } catch (error) {
-  console.error(`date: ${new Date()}\n`, error, '\n');
+  console.log(error);
   httpServer.close();
 }
 
