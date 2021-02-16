@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({
 
 const stripe = Stripe(config.stripeSk);
 
-app.post('/sandbox/client-secret', async (req, res) => {
+app.post('/api/client-secret', async (req, res) => {
   try {
     const { currency, amount } = req.body;
     const paymentIntent = await stripe.paymentIntents.create({
