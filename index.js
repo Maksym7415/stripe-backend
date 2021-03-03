@@ -16,6 +16,17 @@ app.use(bodyParser.urlencoded({
 
 const stripe = Stripe(config.stripeSk);
 
+const endpoint = await stripe.webhookEndpoints.create({
+  url: 'https://stripe-example.hopto.org/api/webhook',
+  enabled_events: [
+    'charge.failed',
+    'charge.succeeded',
+    'payment_intent.succeeded',
+    'payment_method.attached'
+
+  ],
+});
+
 app.post('/api/client-secret', async (req, res) => {
   try {
     const { currency, amount } = req.body;
@@ -66,6 +77,42 @@ app.post('/api/subscription', async (req, res) => {
     });
   }
 })
+
+app.post('api/webhook', bodyParser.raw({type: 'application/json'}), (request, response) => {
+  const event = request.body;
+
+  // Handle the event
+  switch (event.type) {
+    case 'payment_intent.succeeded':
+      console.log(event, 'payment_intent.succeeded');
+      const paymentIntent = event.data.object;
+      // Then define and call a method to handle the successful payment intent.
+      // handlePaymentIntentSucceeded(paymentIntent);
+      break;
+    case 'payment_method.attached':
+      console.log(event, 'payment_method.attached');
+      const paymentMethod = event.data.object;
+      // Then define and call a method to handle the successful attachment of a PaymentMethod.
+      // handlePaymentMethodAttached(paymentMethod);
+      break;
+    // ... handle other event types
+    case 'charge.succeeded': 
+      console.log(event, 'charge.succeeded');
+
+      break;
+
+    case 'payment_method.attached': 
+      console.log(event, 'payment_method.attached');
+
+      break;
+
+    default:
+      console.log(`Unhandled event type ${event.type}`);
+  }
+
+  // Return a response to acknowledge receipt of the event
+  response.json({received: true});
+});
 
 app.use('*', (req, res) => res.send('Not found'))
 
