@@ -15,26 +15,28 @@ app.use(bodyParser.urlencoded({
 }));
 
 const stripe = Stripe(config.stripeSk);
+(async () => {
+  const endpoint = await stripe.webhookEndpoints.create({
+    url: 'https://stripe-example.hopto.org/api/webhook',
+    enabled_events: [
+      'customer.created', // event is sent, indicating that a customer record was successfully created.
+      'customer.subscription.created', // event is sent, indicating the subscription was created.
+      'invoice.created', // events are sent, indicating that this invoice was issued for the first billing period
+      'invoice.finalized', // events are sent, indicating that this invoice was issued for the first billing period
+      'payment_intent.created', //events are sent, indicating that the customer’s payment method was successfully charged.
+      'payment_intent.succeeded', // events are sent, indicating that the customer’s payment method was successfully charged.
+      'invoice.payment_action_required', // event is sent, indicating the invoice requires customer authentication
+      'customer.subscription.updated', // event is sent with the subscription status set to active, indicating the subscription was successfully started after the payment was confirmed
+      'invoice.upcoming', // A few days prior to renewal
+      'invoice.created', // When the subscription period elapses
+      'invoice.finalized', // About an hour after the invoice is created, it is finalized (changes are no longer permitted)
+      'charge.failed',
+      'charge.succeeded',
+      'payment_method.attached',
+    ],
+  });
+})()
 
-const endpoint = await stripe.webhookEndpoints.create({
-  url: 'https://stripe-example.hopto.org/api/webhook',
-  enabled_events: [
-    'customer.created', // event is sent, indicating that a customer record was successfully created.
-    'customer.subscription.created', // event is sent, indicating the subscription was created.
-    'invoice.created', // events are sent, indicating that this invoice was issued for the first billing period
-    'invoice.finalized', // events are sent, indicating that this invoice was issued for the first billing period
-    'payment_intent.created', //events are sent, indicating that the customer’s payment method was successfully charged.
-    'payment_intent.succeeded', // events are sent, indicating that the customer’s payment method was successfully charged.
-    'invoice.payment_action_required', // event is sent, indicating the invoice requires customer authentication
-    'customer.subscription.updated', // event is sent with the subscription status set to active, indicating the subscription was successfully started after the payment was confirmed
-    'invoice.upcoming', // A few days prior to renewal
-    'invoice.created', // When the subscription period elapses
-    'invoice.finalized', // About an hour after the invoice is created, it is finalized (changes are no longer permitted)
-    'charge.failed',
-    'charge.succeeded',
-    'payment_method.attached',
-  ],
-});
 
 app.post('/api/client-secret', async (req, res) => {
   try {
