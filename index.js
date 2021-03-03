@@ -38,7 +38,7 @@ let endpoint;
   });
 })()
 
-
+// API FOR CREATING CLIENT SECRET FOR ONE TIME PAYMENT
 app.post('/api/client-secret', async (req, res) => {
   try {
     const { currency, amount } = req.body;
@@ -54,6 +54,7 @@ app.post('/api/client-secret', async (req, res) => {
   }
 });
 
+// API FOR CREATING SESSION ID FOR SUBSCRIPTION PAYMENT
 app.post('/api/subscription', async (req, res) => {
   const { priceId } = req.body;
 
@@ -90,11 +91,7 @@ app.post('/api/subscription', async (req, res) => {
   }
 })
 
-app.get('/test', (req, res) => {
-  console.log('214');
-  return res.json()
-})
-
+// STRIPE WEBHOOKS API
 app.post('/api/webhook', bodyParser.raw({type: 'application/json'}), (request, response) => {
   const event = request.body;
   console.log(event, 'start webhook')
@@ -183,7 +180,6 @@ app.use('*', (req, res) => res.send('Not found'))
 try {
   httpServer.listen(config.HTTP_PORT, async () => {
     console.log(`Listening on port ${config.HTTP_PORT}`);
-    console.log(endpoint)
   });
 } catch (error) {
   console.log(error);
