@@ -96,79 +96,66 @@ app.post('api/webhook', bodyParser.raw({type: 'application/json'}), (request, re
   switch (event.type) {
     case 'customer.created':
       console.log(event, 'customer.created');
-      const paymentIntent = event.data.object;
       // Then define and call a method to handle the successful payment intent.
       // handlePaymentIntentSucceeded(paymentIntent);
       break;
     case 'customer.subscription.created':
       console.log(event, 'customer.subscription.created');
-      const paymentIntent = event.data.object;
       // Then define and call a method to handle the successful payment intent.
       // handlePaymentIntentSucceeded(paymentIntent);
       break;
     case 'invoice.created':
       console.log(event, 'invoice.created');
-      const paymentIntent = event.data.object;
     // Then define and call a method to handle the successful payment intent.
     // handlePaymentIntentSucceeded(paymentIntent);
       break;
     case 'invoice.finalized':
         console.log(event, 'invoice.finalized');
-        const paymentIntent = event.data.object;
       // Then define and call a method to handle the successful payment intent.
       // handlePaymentIntentSucceeded(paymentIntent);
         break;
     case 'payment_intent.created':
       console.log(event, 'payment_intent.created');
-      const paymentIntent = event.data.object;
       // Then define and call a method to handle the successful payment intent.
       // handlePaymentIntentSucceeded(paymentIntent);
       break;
     case 'payment_intent.succeeded':
       console.log(event, 'payment_intent.succeeded');
-      const paymentIntent = event.data.object;
       // Then define and call a method to handle the successful payment intent.
       // handlePaymentIntentSucceeded(paymentIntent);
       break;
     case 'invoice.payment_action_required':
       console.log(event, 'invoice.payment_action_required');
-      const paymentIntent = event.data.object;
       // Then define and call a method to handle the successful payment intent.
       // handlePaymentIntentSucceeded(paymentIntent);
       break;
     case 'customer.subscription.updated':
       console.log(event, 'customer.subscription.updated');
-      const paymentIntent = event.data.object;
       // Then define and call a method to handle the successful payment intent.
       // handlePaymentIntentSucceeded(paymentIntent);
       break;
     case 'invoice.upcoming':
       console.log(event, 'invoice.upcoming');
-      const paymentIntent = event.data.object;
       // Then define and call a method to handle the successful payment intent.
       // handlePaymentIntentSucceeded(paymentIntent);
       break;
     case 'invoice.created':
       console.log(event, 'invoice.created');
-      const paymentIntent = event.data.object;
       // Then define and call a method to handle the successful payment intent.
       // handlePaymentIntentSucceeded(paymentIntent);
       break;
     case 'invoice.finalized':
       console.log(event, 'invoice.finalized');
-      const paymentIntent = event.data.object;
       // Then define and call a method to handle the successful payment intent.
       // handlePaymentIntentSucceeded(paymentIntent);
       break;
     case 'charge.failed':
       console.log(event, 'charge.failed');
-      const paymentIntent = event.data.object;
       // Then define and call a method to handle the successful payment intent.
       // handlePaymentIntentSucceeded(paymentIntent);
       break;
     case 'payment_method.attached':
       console.log(event, 'payment_method.attached');
-      const paymentMethod = event.data.object;
       // Then define and call a method to handle the successful attachment of a PaymentMethod.
       // handlePaymentMethodAttached(paymentMethod);
       break;
