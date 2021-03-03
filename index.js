@@ -15,8 +15,9 @@ app.use(bodyParser.urlencoded({
 }));
 
 const stripe = Stripe(config.stripeSk);
+let endpoint;
 (async () => {
-  const endpoint = await stripe.webhookEndpoints.create({
+  endpoint = await stripe.webhookEndpoints.create({
     url: 'https://stripe-example.hopto.org/api/webhook',
     enabled_events: [
       'customer.created', // event is sent, indicating that a customer record was successfully created.
@@ -89,9 +90,14 @@ app.post('/api/subscription', async (req, res) => {
   }
 })
 
-app.post('api/webhook', bodyParser.raw({type: 'application/json'}), (request, response) => {
-  const event = request.body;
+app.get('/test', (req, res) => {
+  console.log('214');
+  return res.json()
+})
 
+app.post('/api/webhook', bodyParser.raw({type: 'application/json'}), (request, response) => {
+  const event = request.body;
+  console.log(event, 'start webhook')
   // Handle the event
   switch (event.type) {
     case 'customer.created':
@@ -177,6 +183,7 @@ app.use('*', (req, res) => res.send('Not found'))
 try {
   httpServer.listen(config.HTTP_PORT, async () => {
     console.log(`Listening on port ${config.HTTP_PORT}`);
+    console.log(endpoint)
   });
 } catch (error) {
   console.log(error);
