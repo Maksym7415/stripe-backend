@@ -57,6 +57,7 @@ app.post('/api/client-secret', async (req, res) => {
 // API FOR CREATING SESSION ID FOR SUBSCRIPTION PAYMENT
 app.post('/api/subscription', async (req, res) => {
   const { priceId } = req.body;
+  const stripe = Stripe("sk_test_51ISRsnJqkGKmOFO6tGJBdzaf5BqWLCOFT3LUreZbCu3S9r7h9m2Vxfyq4MM7las6etORAPygjVB0U3z8qK0atqGb00c0keIjXu");
 
   // See https://stripe.com/docs/api/checkout/sessions/create
   // for additional parameters to pass.
@@ -74,8 +75,8 @@ app.post('/api/subscription', async (req, res) => {
       // {CHECKOUT_SESSION_ID} is a string literal; do not change it!
       // the actual Session ID is returned in the query parameter when your customer
       // is redirected to the success page.
-      success_url: 'https://eat-beat.hopto.org',
-      cancel_url: 'https://eat-beat.hopto.org',
+      success_url: `https://eat-beat.hopto.org/{CHECKOUT_SESSION_ID}`,
+      cancel_url: `https://eat-beat.hopto.org/{CHECKOUT_SESSION_ID}`,
     });
 
     res.send({
